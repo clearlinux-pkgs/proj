@@ -5,6 +5,10 @@ Configure miss: whether C compiler accepts -Wcomma
 Configure miss: whether C compiler accepts -Wdocumentation -Wno-documentation-deprecated-sync
 Configure miss: whether C++ compiler accepts -Wunused-private-field
 Configure miss: whether C++ compiler accepts -Wmissing-prototypes
+Configure miss: whether C++ compiler accepts -Wweak-vtables
+Configure miss: whether C++ compiler accepts -Wabstract-vbase-init
+Configure miss: whether C++ compiler accepts -Winconsistent-missing-destructor-override
+Configure miss: to enable LTO (link time optimization) build
 Configure miss: whether C compiler accepts -fp-model precise
 Configure miss: jni.h usability
 Configure miss: jni.h presence
