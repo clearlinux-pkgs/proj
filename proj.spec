@@ -4,7 +4,7 @@
 #
 Name     : proj
 Version  : 6.1.0
-Release  : 2
+Release  : 3
 URL      : http://download.osgeo.org/proj/proj-6.1.0.tar.gz
 Source0  : http://download.osgeo.org/proj/proj-6.1.0.tar.gz
 Summary  : Cartographic Projections library
@@ -87,35 +87,51 @@ man components for the proj package.
 
 %prep
 %setup -q -n proj-6.1.0
+pushd ..
+cp -a proj-6.1.0 buildavx2
+popd
 
 %build
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1558941001
+export SOURCE_DATE_EPOCH=1558942067
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
-export CFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FCFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export FFLAGS="$CFLAGS -O3 -ffat-lto-objects -flto=4 "
-export CXXFLAGS="$CXXFLAGS -O3 -ffat-lto-objects -flto=4 "
-%configure --disable-static
+export CFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FCFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export FFLAGS="$CFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+export CXXFLAGS="$CXXFLAGS -O3 -falign-functions=32 -ffat-lto-objects -flto=4 -fno-math-errno -fno-semantic-interposition -fno-trapping-math "
+%configure --disable-static --enable-lto
 make  %{?_smp_mflags}
 
+unset PKG_CONFIG_PATH
+pushd ../buildavx2/
+export CFLAGS="$CFLAGS -m64 -march=haswell"
+export CXXFLAGS="$CXXFLAGS -m64 -march=haswell"
+export LDFLAGS="$LDFLAGS -m64 -march=haswell"
+%configure --disable-static --enable-lto
+make  %{?_smp_mflags}
+popd
 %check
 export LANG=C
 export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 make VERBOSE=1 V=1 %{?_smp_mflags} check
+cd ../buildavx2;
+make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1558941001
+export SOURCE_DATE_EPOCH=1558942067
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/proj
 cp COPYING %{buildroot}/usr/share/package-licenses/proj/COPYING
+pushd ../buildavx2/
+%make_install_avx2
+popd
 %make_install
 
 %files
@@ -127,6 +143,14 @@ cp COPYING %{buildroot}/usr/share/package-licenses/proj/COPYING
 /usr/bin/cs2cs
 /usr/bin/geod
 /usr/bin/gie
+/usr/bin/haswell/cct
+/usr/bin/haswell/cs2cs
+/usr/bin/haswell/geod
+/usr/bin/haswell/gie
+/usr/bin/haswell/invgeod
+/usr/bin/haswell/invproj
+/usr/bin/haswell/proj
+/usr/bin/haswell/projinfo
 /usr/bin/invgeod
 /usr/bin/invproj
 /usr/bin/proj
@@ -159,6 +183,7 @@ cp COPYING %{buildroot}/usr/share/package-licenses/proj/COPYING
 /usr/include/proj/metadata.hpp
 /usr/include/proj/nn.hpp
 /usr/include/proj/util.hpp
+/usr/lib64/haswell/libproj.so
 /usr/lib64/libproj.so
 /usr/lib64/pkgconfig/proj.pc
 /usr/share/man/man3/geodesic.3
@@ -166,6 +191,8 @@ cp COPYING %{buildroot}/usr/share/package-licenses/proj/COPYING
 
 %files lib
 %defattr(-,root,root,-)
+/usr/lib64/haswell/libproj.so.15
+/usr/lib64/haswell/libproj.so.15.1.0
 /usr/lib64/libproj.so.15
 /usr/lib64/libproj.so.15.1.0
 
