@@ -4,10 +4,10 @@
 #
 Name     : proj
 Version  : 6.1.0
-Release  : 4
+Release  : 5
 URL      : http://download.osgeo.org/proj/proj-6.1.0.tar.gz
 Source0  : http://download.osgeo.org/proj/proj-6.1.0.tar.gz
-Summary  : Cartographic Projections library
+Summary  : Cartographic Projections Library.
 Group    : Development/Tools
 License  : MIT
 Requires: proj-bin = %{version}-%{release}
@@ -21,11 +21,9 @@ BuildRequires : pkgconfig(sqlite3)
 
 %description
 # PROJ
-[![Travis Status](https://travis-ci.com/OSGeo/proj.4.svg?branch=master)](https://travis-ci.com/OSGeo/proj.4)
-[![AppVeyor Status](https://ci.appveyor.com/api/projects/status/584j49uguwoo5evi?svg=true)](https://ci.appveyor.com/project/OSGeo/proj-4)
-[![Coveralls Status](https://coveralls.io/repos/github/OSGeo/proj.4/badge.svg?branch=master)](https://coveralls.io/github/OSGeo/proj.4?branch=master)
-[![Gitter](https://badges.gitter.im/OSGeo/proj.4.svg)](https://gitter.im/OSGeo/proj.4)
-[![Mailing List](https://img.shields.io/badge/PROJ-mailing%20list-4eb899.svg)](http://lists.osgeo.org/mailman/listinfo/proj)
+PROJ is a generic coordinate transformation software, that transforms
+coordinates from one coordinate reference system (CRS) to another.
+This includes cartographic projections as well as geodetic transformations.
 
 %package bin
 Summary: bin components for the proj package.
@@ -52,7 +50,6 @@ Requires: proj-lib = %{version}-%{release}
 Requires: proj-bin = %{version}-%{release}
 Requires: proj-data = %{version}-%{release}
 Provides: proj-devel = %{version}-%{release}
-Requires: proj = %{version}-%{release}
 Requires: proj = %{version}-%{release}
 
 %description dev
@@ -96,7 +93,8 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C
-export SOURCE_DATE_EPOCH=1558942067
+export SOURCE_DATE_EPOCH=1562024995
+export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
 export NM=gcc-nm
@@ -125,7 +123,7 @@ cd ../buildavx2;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1558942067
+export SOURCE_DATE_EPOCH=1562024995
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/proj
 cp COPYING %{buildroot}/usr/share/package-licenses/proj/COPYING
@@ -133,6 +131,9 @@ pushd ../buildavx2/
 %make_install_avx2
 popd
 %make_install
+## install_append content
+/usr/bin/sqlite3 %{buildroot}/usr/share/proj/proj.db 'PRAGMA journal_mode=DELETE;'
+## install_append end
 
 %files
 %defattr(-,root,root,-)

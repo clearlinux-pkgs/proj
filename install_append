@@ -1,0 +1,2 @@
+# Set the database journal mode away from WAL so it can be queried read-only
+/usr/bin/sqlite3 %{buildroot}/usr/share/proj/proj.db 'PRAGMA journal_mode=DELETE;'
