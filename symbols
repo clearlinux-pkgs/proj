@@ -775,6 +775,7 @@ libproj.so.15:_ZNK5osgeo4proj3crs18DerivedGeodeticCRS7baseCRSEv
 libproj.so.15:_ZNK5osgeo4proj3crs18DerivedVerticalCRS7baseCRSEv
 libproj.so.15:_ZNK5osgeo4proj3crs19DerivedProjectedCRS7baseCRSEv
 libproj.so.15:_ZNK5osgeo4proj3crs20DerivedGeographicCRS7baseCRSEv
+libproj.so.15:_ZNK5osgeo4proj3crs3CRS11promoteTo3DERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEERKSt10shared_ptrINS0_2io15DatabaseContextEE
 libproj.so.15:_ZNK5osgeo4proj3crs3CRS12shallowCloneEv
 libproj.so.15:_ZNK5osgeo4proj3crs3CRS16alterGeodeticCRSERKN7dropbox6oxygen2nnISt10shared_ptrINS1_11GeodeticCRSEEEE
 libproj.so.15:_ZNK5osgeo4proj3crs3CRS16getNonDeprecatedB5cxx11ERKN7dropbox6oxygen2nnISt10shared_ptrINS0_2io15DatabaseContextEEEE
@@ -1583,6 +1584,7 @@ libproj.so.15:proj_crs_alter_geodetic_crs
 libproj.so.15:proj_crs_alter_parameters_linear_unit
 libproj.so.15:proj_crs_create_bound_crs
 libproj.so.15:proj_crs_create_bound_crs_to_WGS84
+libproj.so.15:proj_crs_create_projected_3D_crs_from_2D
 libproj.so.15:proj_crs_get_coordinate_system
 libproj.so.15:proj_crs_get_coordoperation
 libproj.so.15:proj_crs_get_datum
@@ -1590,6 +1592,7 @@ libproj.so.15:proj_crs_get_geodetic_crs
 libproj.so.15:proj_crs_get_horizontal_datum
 libproj.so.15:proj_crs_get_sub_crs
 libproj.so.15:proj_crs_info_list_destroy
+libproj.so.15:proj_crs_promote_to_3D
 libproj.so.15:proj_cs_get_axis_count
 libproj.so.15:proj_cs_get_axis_info
 libproj.so.15:proj_cs_get_type
