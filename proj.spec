@@ -4,7 +4,7 @@
 #
 Name     : proj
 Version  : 6.2.0
-Release  : 7
+Release  : 8
 URL      : http://download.osgeo.org/proj/proj-6.2.0.tar.gz
 Source0  : http://download.osgeo.org/proj/proj-6.2.0.tar.gz
 Summary  : Cartographic Projections library
