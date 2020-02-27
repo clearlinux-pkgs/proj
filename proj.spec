@@ -4,10 +4,10 @@
 #
 Name     : proj
 Version  : 6.3.1
-Release  : 11
+Release  : 12
 URL      : http://download.osgeo.org/proj/proj-6.3.1.tar.gz
 Source0  : http://download.osgeo.org/proj/proj-6.3.1.tar.gz
-Summary  : Cartographic Projections library
+Summary  : Cartographic Projections Library.
 Group    : Development/Tools
 License  : MIT
 Requires: proj-bin = %{version}-%{release}
@@ -17,18 +17,14 @@ Requires: proj-license = %{version}-%{release}
 Requires: proj-man = %{version}-%{release}
 BuildRequires : apache-ant
 BuildRequires : buildreq-cmake
-BuildRequires : buildreq-mvn
 BuildRequires : pkgconfig(gtest)
 BuildRequires : pkgconfig(sqlite3)
 
 %description
 # PROJ
-[![Travis Status](https://travis-ci.com/OSGeo/PROJ.svg?branch=master)](https://travis-ci.com/OSGeo/PROJ)
-[![AppVeyor Status](https://ci.appveyor.com/api/projects/status/github/OSGeo/PROJ?branch=master&svg=true)](https://ci.appveyor.com/project/OSGeo/PROJ?branch=master)
-[![Coveralls Status](https://coveralls.io/repos/github/OSGeo/PROJ/badge.svg?branch=master)](https://coveralls.io/github/OSGeo/PROJ?branch=master)
-[![Gitter](https://badges.gitter.im/OSGeo/proj.4.svg)](https://gitter.im/OSGeo/proj.4)
-[![Mailing List](https://img.shields.io/badge/PROJ-mailing%20list-4eb899.svg)](http://lists.osgeo.org/mailman/listinfo/proj)
-[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-v1.4%20adopted-ff69b4.svg)](code-of-conduct.md)
+PROJ is a generic coordinate transformation software, that transforms
+coordinates from one coordinate reference system (CRS) to another.
+This includes cartographic projections as well as geodetic transformations.
 
 %package bin
 Summary: bin components for the proj package.
@@ -55,7 +51,6 @@ Requires: proj-lib = %{version}-%{release}
 Requires: proj-bin = %{version}-%{release}
 Requires: proj-data = %{version}-%{release}
 Provides: proj-devel = %{version}-%{release}
-Requires: proj = %{version}-%{release}
 Requires: proj = %{version}-%{release}
 
 %description dev
@@ -100,8 +95,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1581698448
-# -Werror is for werrorists
+export SOURCE_DATE_EPOCH=1582842124
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -131,7 +125,7 @@ cd ../buildavx2;
 make VERBOSE=1 V=1 %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1581698448
+export SOURCE_DATE_EPOCH=1582842124
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/proj
 cp %{_builddir}/proj-6.3.1/COPYING %{buildroot}/usr/share/package-licenses/proj/ff8d569976b75bad2e71d78ad1df7a422f1165c9
