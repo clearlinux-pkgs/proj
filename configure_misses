@@ -1,20 +1,20 @@
-Configure miss: whether C compiler accepts -Werror -we10006
-Configure miss: whether C compiler accepts -diag-disable 188,1684,2259,2304,3280,11074,11076
-Configure miss: whether C compiler accepts -Wshorten-64-to-32
+Configure miss: whether C compiler accepts -Wcomma
 Configure miss: whether C compiler accepts -Wcomma
 Configure miss: whether C compiler accepts -Wdocumentation -Wno-documentation-deprecated-sync
-Configure miss: whether C++ compiler accepts -Wunused-private-field
-Configure miss: whether C++ compiler accepts -Wweak-vtables
-Configure miss: whether C++ compiler accepts -Wabstract-vbase-init
-Configure miss: whether C++ compiler accepts -Winconsistent-missing-destructor-override
-Configure miss: whether C compiler accepts -fp-model precise
-Configure miss: whether C compiler accepts -Werror -we10006
-Configure miss: whether C compiler accepts -diag-disable 188,1684,2259,2304,3280,11074,11076
-Configure miss: whether C compiler accepts -Wshorten-64-to-32
-Configure miss: whether C compiler accepts -Wcomma
 Configure miss: whether C compiler accepts -Wdocumentation -Wno-documentation-deprecated-sync
-Configure miss: whether C++ compiler accepts -Wunused-private-field
-Configure miss: whether C++ compiler accepts -Wweak-vtables
+Configure miss: whether C compiler accepts -Werror -we10006
+Configure miss: whether C compiler accepts -Werror -we10006
+Configure miss: whether C compiler accepts -Wshorten-64-to-32
+Configure miss: whether C compiler accepts -Wshorten-64-to-32
+Configure miss: whether C compiler accepts -diag-disable 188,1684,2259,2304,3280,11074,11076
+Configure miss: whether C compiler accepts -diag-disable 188,1684,2259,2304,3280,11074,11076
+Configure miss: whether C compiler accepts -fp-model precise
+Configure miss: whether C compiler accepts -fp-model precise
+Configure miss: whether C++ compiler accepts -Wabstract-vbase-init
 Configure miss: whether C++ compiler accepts -Wabstract-vbase-init
 Configure miss: whether C++ compiler accepts -Winconsistent-missing-destructor-override
-Configure miss: whether C compiler accepts -fp-model precise
+Configure miss: whether C++ compiler accepts -Winconsistent-missing-destructor-override
+Configure miss: whether C++ compiler accepts -Wunused-private-field
+Configure miss: whether C++ compiler accepts -Wunused-private-field
+Configure miss: whether C++ compiler accepts -Wweak-vtables
+Configure miss: whether C++ compiler accepts -Wweak-vtables
