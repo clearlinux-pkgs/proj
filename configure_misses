@@ -1,20 +1,15 @@
-Configure miss: whether C compiler accepts -Wcomma
+Configure miss: gcc-10 option to accept ISO C89
+Configure miss: gcc-10 option to accept ISO C99
+Configure miss: if g++-10 static flag -static works
+Configure miss: if gcc-10 static flag -static works
+Configure miss: if gcc-10 supports -fno-rtti -fno-exceptions
 Configure miss: whether C compiler accepts -Wcomma
 Configure miss: whether C compiler accepts -Wdocumentation -Wno-documentation-deprecated-sync
-Configure miss: whether C compiler accepts -Wdocumentation -Wno-documentation-deprecated-sync
-Configure miss: whether C compiler accepts -Werror -we10006
 Configure miss: whether C compiler accepts -Werror -we10006
 Configure miss: whether C compiler accepts -Wshorten-64-to-32
-Configure miss: whether C compiler accepts -Wshorten-64-to-32
-Configure miss: whether C compiler accepts -diag-disable 188,1684,2259,2304,3280,11074,11076
 Configure miss: whether C compiler accepts -diag-disable 188,1684,2259,2304,3280,11074,11076
 Configure miss: whether C compiler accepts -fp-model precise
-Configure miss: whether C compiler accepts -fp-model precise
-Configure miss: whether C++ compiler accepts -Wabstract-vbase-init
 Configure miss: whether C++ compiler accepts -Wabstract-vbase-init
 Configure miss: whether C++ compiler accepts -Winconsistent-missing-destructor-override
-Configure miss: whether C++ compiler accepts -Winconsistent-missing-destructor-override
 Configure miss: whether C++ compiler accepts -Wunused-private-field
-Configure miss: whether C++ compiler accepts -Wunused-private-field
-Configure miss: whether C++ compiler accepts -Wweak-vtables
 Configure miss: whether C++ compiler accepts -Wweak-vtables
