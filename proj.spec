@@ -4,7 +4,7 @@
 #
 Name     : proj
 Version  : 7.2.1
-Release  : 21
+Release  : 22
 URL      : https://download.osgeo.org/proj/proj-7.2.1.tar.gz
 Source0  : https://download.osgeo.org/proj/proj-7.2.1.tar.gz
 Summary  : Coordinate transformation software library
@@ -102,7 +102,7 @@ export http_proxy=http://127.0.0.1:9/
 export https_proxy=http://127.0.0.1:9/
 export no_proxy=localhost,127.0.0.1,0.0.0.0
 export LANG=C.UTF-8
-export SOURCE_DATE_EPOCH=1633753629
+export SOURCE_DATE_EPOCH=1633824516
 export GCC_IGNORE_WERROR=1
 export AR=gcc-ar
 export RANLIB=gcc-ranlib
@@ -122,7 +122,7 @@ export no_proxy=localhost,127.0.0.1,0.0.0.0
 make %{?_smp_mflags} check || :
 
 %install
-export SOURCE_DATE_EPOCH=1633753629
+export SOURCE_DATE_EPOCH=1633824516
 rm -rf %{buildroot}
 mkdir -p %{buildroot}/usr/share/package-licenses/proj
 cp %{_builddir}/proj-7.2.1/COPYING %{buildroot}/usr/share/package-licenses/proj/ff8d569976b75bad2e71d78ad1df7a422f1165c9
