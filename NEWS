@@ -1,3 +1,989 @@
+9.2.1 Release Notes
+-------------------
+
+ Database updates
+ --------
+
+ o Add alias for old ESRI datum/CRS names of EPSG:8353
+   S_JTSK_JTSK03_Krovak_East_North (#3678)
+
+ o Pseudo Mercator now supported with IAU CRS's (#3645)
+
+ o Updated to EPSG 10.088 (#3731)
+
+ Bug fixes
+ ----------
+
+ o Fixed build errors with Cygwin (#3642)
+
+ o PROJ string CRS parser: make sure that PROJ arguments of the rotated
+   string are kept in the WKT representation (#3656)
+
+ o Fix slowness on proj_trans() when doing WGS 84 <--> NAD83 conversions (#3661)
+
+ o vgridshift/gridshift: accept hydroid_height as valid band description (#3675)
+
+ o WKT/PROJJSON: import/export accuracy of ConcatenatedOperation (#3676)
+
+ o Coordinate operation factory: count identified concatenated operations as a
+   single step (#3677)
+
+ o EngineeringCRS: make proj_create_engineering_crs() set a datum name
+   and relax isEquivalentTo() comparisons (#3685)
+
+ o PROJJSON: fix import/export of integer parameter value, and deal with
+   interpolation CRS parameters in conversions (#3695)
+
+ o  CMake: avoid imbalanced cmake_policy push/pop if TIFF or CURL dependency
+    cannot be found (#3697)
+ 
+ o  proj_create_crs_to_crs(): restore transformation selection behaviour
+    of PROJ 9.1 when grids are missing (#3707)
+
+ o  ESRI WKT: improve roundtrip of name and definition for UPS WGS84 CRS (#3720)
+
+ o CRS instanciation from PROJ.4 string: set 'Unknown based on XXXX ellipsoid'
+   datum name when instanciating from known +a, +rf (#3727)
+
+ o  cs2cs / proj_create_crs_to_crs(): fix regression with geocentric CRS (#3729)
+
+ o  proj_trans(): set PROJ_ERR_COORD_TRANSFM_NO_OPERATION error when failing
+    in ONLY_BEST=YES mode (#3730)
+
+ o  tinshift: raise maximum size of JSON file to 100 MB (#3736)
+ 
+
+
+9.2.0 Release Notes
+-------------------
+
+ Updates
+ --------
+
+ + Database
+
+    o EPSG updated to EPSG 10.082 (#3609)
+
+    o ESRI objects updated to v3.1.0 (#3575)
+
+    o Added Slovenian geoid model SLO-VRP2016/Koper (#3610)
+
+ + Projections
+
+   o Added generic Space Oblique Mercator (#3338)
+
+   o Inverse eck4: Add checks for projection domain (#3625)
+
+ + Transformations
+
+   o Added support for NADCON5 grids and transformation method (#3510)
+
+   o Added option ONLY_BEST=YES (#3535)
+
+     When enabled only use the best possible transformation between two CRS's can be
+     instantiated. If the best possible transfomations can't be instantiated it will
+     fail instead of opting for the next best transformation.
+
+     With ONLY_BEST=YES a transformation will fail if a needed grid is unavailable.
+
+     The option can be toggled in proj.ini and with --only-best in cs2cs.
+
+    o Implement 'Similarity transformation' (EPSG:9621) and import related
+      tranformations from EPSG (#3578)
+
+    o Optimise transformations between GDA94, GDA2020 and WGS84 (#3621)
+
+ + Performance improvements
+
+   o Pass PJ_COORD by reference for fwd4d and inv4d callbacks (#3503)
+
+   o Improved of inverse meridian length calculations (#3516)
+
+   o Avoid very poor performance on a geographic CRS whose datum name is the alias
+     of an official one (#3624)
+
+ + Well-Known Text improvements
+
+   o Support WKT:2019 COORDINATEMETADATA[] construct (#2711)
+
+   o implement alterCSLinearUnit for CompoundCRS (#3325)
+
+   o Implement alterCSLinearUnit for BoundCRS (#3327)
+
+   o Added PJ_TYPE_DERIVED_PROJECTED_CRS (#3488)
+
+   o Added support for ISO19111 CoordinateMetadata class (#3562)
+
+   o Update WKT import to support WKT2 corrigendum (#3573)
+
+   o WKT import: Make axis direction and range meaning enumeration case
+     insensitive as mandated by spec (#3577)
+
+   o Implement AffineCS and handle it in WKT (#3579)
+
+   o WKT1 parser: Support inf as inverse flattening value (#3626)
+
+ + PROJJSON
+
+   o Version number changed to 0.6
+
+   o Added an additional optional source_crs property in abridged_transformation (#3454)
+
+   o Added support for ISO19111 CoordinateMetadata class (#3562)
+
+   o Implement AffineCS and handle it in PROJJSON (#3579)
+
+ + C/C++ API
+
+   o C API: add proj_get_domain_count(), proj_get_area_of_use_ex() and proj_get_scope_ex() (#3588)
+
+   DEPRECATIONS
+
+   The following functions have been deprecated and will be removed in a future version.
+
+   o C API function proj_rtodms. Use proj_rtodms2 instead (#3431)
+
+   o C experimental API function proj_create_conversion_tunisia_mapping_grid().
+     Use proj_create_conversion_tunisia_mining_grid() instead (#3559)
+
+   o C++ API function createTunisiaMapingGrid(). Use createTunisiaMiningGrid() instead (#3559)
+
+   o Added explicit NaN handling to proj_trans and gie (#3603)
+
+ + CMake
+
+    o Added uninstall target (#3362)
+
+    o Adopted use of TIFF:TIFF and CURL::libcurl targets (#3374)
+
+ + Security improvements
+
+   o Replaced uses of sprintf with the safer snprintf (#3421, #3431)
+
+ + Various other improvements
+
+  o Implemented platform independent mutex for better results on lesser used platforms (#3425)
+
+  o Improved name and remarks in descriptions of some vertical transformations (#3334)
+
+  o Implemented stricter matching by name to avoid false positives (#3487)
+
+  o Improved numerical accuracy of the meridian length calculations and its inverse (#3516)
+
+  o Added PROJ_IGNORE_CELESTIAL_BODY=YES environment variable that allows better matching of
+    non-earth shaped ellipsoids to other celestial bodies (#3569)
+
+ Bug fixes
+ ----------
+
+ o rtodms(): fix potential buffer overflow not dealt with (#3441)
+
+ o NetworkFile::open(): fix memory leak in unlikely error code path (#3443)
+
+ o When importing LOCAL_CS["foo"], generates a non-empty name for the datum (#3491)
+
+ o Avoid unit mix-up in CRS::alterCSLinearUnit for DerivedProjectedCRS (#3499)
+
+ o WKT to PROJ conversions: Map 'Lambert Azimuthal Equal Area (Spherical)' to '+proj=laea +R_A' (#3526)
+
+ o ProjectedCRS::identify(): Relax trust in id/authority in definition to identify (#3532)
+
+ o Fix instantion of http://www.opengis.net/def/crs/IAU/2015/xxx URNs (#3569)
+
+ o Fix proj_normalize_for_visualization() on a transformation with FORCE_OVER=YES (#3570)
+
+ o createBoundCRSToWGS84IfPossible(): Do not report +towgs84 for a CRS with multiple extents,
+   such as EPSG:6316 (#3587)
+
+ o pj_get_suggested_operation(): handle longitudes outside of [-180,180] for coordinate
+   operation selection (#3595)
+
+ o WKT1 parser: only emit warning when encountering invalid UNKNOWN WKT1 axis direction (#3618)
+
+ o projinfo: fix long option name --source-crs (#3601)
+
+
+9.1.1 Release Notes
+-------------------
+
+ Updates
+ --------
+
+ o Database: register at_bev_AT_GIS_GRID_2021_09_28 grid (#3442)
+
+ Bug fixes
+ ----------
+
+ o Implement alterGeodeticCRS and stripVerticalComponent for DerivedProjected (#3482)
+
+ o Various improvements to handling of DerivedProjectedCRS
+   (#3482, #3477, #3342, #3319, #3317)
+
+ o Add missing <cstdint> includes (#3459)
+
+ o cs2cs: better validate value of -W option (#3453)
+
+ o DatabaseContext::lookForGridInfo(): fix caching of filenames and set
+   correct URLs (#3448)
+
+ o Database: register in grid_alternatives grids from PROJ-data that have no
+   corresponding transformation record (#3446)
+
+ o cass projection: fix forward computation of easting (#3433)
+
+ o Implement Geographic/Vertical Offset conversions (#3413)
+
+ o vandg projection: handle +over to extend the validity domain outside of
+  |lon|>180deg (#3427)
+
+ o eqdc projection: avoid floating point division by zero in non-nominal case (#3415)
+
+ o createOperations(): fix issues when transforming between Geog3D and
+   DerivedGeog3D CRS with Geographic3D offsets method (#3411)
+
+ o VerticalCRS::_isEquivalentTo(): do not consider VerticalCRS and
+   DerivedVerticalCRS as equivalent (#3408)
+
+ o cct and cs2cs: Avoid problems when encountering UTF-8 BOM characters at
+    beginning of input files (#3395)
+
+ o createFromUserInput(): Improved lookup when approximate name is provided (#3371)
+
+ o projinfo / cs2cs : auto promotion to 3D of CRS specified by name (#3367)
+
+ o findsOpsInRegistryWithIntermediate(): make it work when source/target geodetic
+   CRS has no known id (#3365)
+
+ o createOperations(): emulate PROJ < 6 behavior when doing geocentric <-->
+   geographic transformation between datum with unknown transformation (#3361)
+
+ o Fix issue when transforming from/into a WKT2 Bound VerticalCRS with a
+   'Geographic3D to GravityRelatedHeight' method (#3355)
+
+ o proj_normalize_for_visualization(): take into account FORCE_OVER property
+   from source operation (#3350)
+
+ o Link geodtest against libm when available (#3341)
+
+9.1.0 Release Notes
+-------------------
+
+ Updates
+ --------
+
+ + Database
+
+  o Database: update to EPSG v10.074 (#3273)
+
+  o Update ESRI objects to version 3.0.0 (#3257)
+
+  o Generate null transformation between geodetic/vertical datum ensemble and
+    its members (#3266)
+
+  o Add fk delete cascade to database tables for improved customizability
+    of the database (#3237)
+
+  o Add Svalbard geoid grid no_kv_arcgp-2006-sk to grid alternatives (#3292)
+
+  o Added French grid fr_ign_RAF20 to grid alternatives (#3228)
+
+ + WKT & PROJJSON
+
+  o WKT2 parser: allow unit-less PARAMETER for coordinate operations (#3271)
+
+  o WKT and PROJJSON adjustments (#3234)
+
+  o Bump PROJJSON to v0.5 (#3216)
+
+  o Change order of horizontal and vertical operations when dealing with
+    WKT1 / PROJ4 compound CRS (#3127)
+
+ + Coordinate Operations
+
+  o Implement Vertical Offset and slope transformation method (#3200)
+
+  o Add Interrupted Mollweide (land and ocean view) projections (#3139)
+
+  o Add invertible Horner polynomials (#3133)
+
+ + Optimizations
+
+  o NTv2 and GTX grid readers: add a cache of lines to speed-up (#3241)
+
+  o IComparable::isEquivalentTo() optimizations (#3233)
+
+ + Various Updates
+
+  o createOperations() / proj_trans(): better take into account area of
+    interest name / do not only keep first returned coordinate operation (#3282)
+
+  o createOperations(): take into account axis unit and inversion of target
+    DerivedProjectedCRS (#3281)
+
+  o Allow a Compound CRS with derived projected (#3283)
+
+  o Make "Vertical Offset and Slope" method usable as a deriving conversion of
+    a DerivedVerticalCRS (#3270)
+
+  o PROJ pipeline generator: recognize opposite Helmert transformations using
+    a different convention (#3265)
+
+  o createOperations(): prefer simpler pipelines / affects WGS 84 to
+    GDA94/GDA2020 (#3248)
+
+  o Make it possible to determine which grid files were actually used during a
+    transformation (#3180)
+
+  o Transformation: no longer do vertical trasnformation when doing compound CRS
+    to 2D CRS / add --3d to cs2cs (#3119)
+
+  o Deprecate PROJ4 CMake name (#3094)
+
+  o Use GNUInstallDirs for CMake install locations (#3100)
+
+  o Introduce PROJ_DATA environment variable to deprecate PROJ_LIB (#3253)
+
+
+ Bug fixes
+ --------
+
+ o projinfo: fix crash on --list-crs when proj.db cannot be opened (#3290)
+
+ o getCRSInfoList(): fix retrieval of projected_crs given by text_definition
+   only (#3289)
+
+ o WKT parser: fix issue when parsing some WKT1 with
+   Hotine_Oblique_Mercator_Azimuth_Center and ignoring rectified_grid_angle (#3280)
+
+ o WKT1 import: better deal when the angular unit of the GEOGCS[] of the
+   PROJCS[] doesn't match the one from the database (#3274)
+
+ o createOperations(): avoid potential infinite recursions (#3264)
+
+ o WKT ESRI: fix related to projected CRS export and add support for geographic
+   3D CRS with LINUNIT node (#3256)
+
+ o proj_grid_info(): make it work again with remote grids (#3239)
+
+ o createOperations(): fix projected CRS with non-metre horiz&vertical unit and
+   towgs84 to gencentric CRS (#3231)
+
+ o createOperations(): fix infinite recursion in a complex case (#3226)
+
+
+
+9.0.1 Release Notes
+-------------------
+
+ Database updates
+ -------
+
+ o Update to EPSG 10.064 (#3208)
+
+ o Add OGC:CRS84h (WGS 84 longitude-latitude-height) (#3155)
+
+ Bug fixes
+ ---------
+
+ o Use CMAKE_INSTALL_MANDIR to override default (#3081)
+
+ o Increase MAX_ITER so Mollweide forward projection works near the poles (#3082)
+
+ o Fix wrong results with SQLite 3.38.0 (#3091)
+
+ o Fix issue when transforming from/to BoundCRS of 3D CRS with non-Greenwich
+  prime meridian, created from WKT (#3098)
+
+ o Fix issues with WKT of concatenated operations (#3105)
+
+ o CMake: fix installation of proj.pc on Windows (#3109)
+
+ o createOperations(): fix issue in transformation northing, easting
+   projected CRS -> +proj=longlat +lon_wrap (#3110)
+
+ o unitconvert: round to nearest date when converting to yyyymmdd (#3111)
+
+ o Fix comparison of GeodeticRefrenceFrame vs DynamicGeodeticReferenceFrame (#3120)
+
+ o createOperations(): fix transformation involving CompoundCRS, ToWGS84
+   and PROJ4_GRIDS (#3124)
+
+ o Fix datum names when importing from PROJ4 crs strings (affects some
+   transformations using geoidgrids) (#3129)
+
+ o Deal with PARAMETER["EPSG code for Interpolation CRS",crs_code] (#3149)
+
+ o createOperations(): fix CompoundCRS[BoundCRS[ProjectedCRS],BoundCRS[VerticalCRS]]
+   to Geog3DCrs (#3151)
+
+ o ITRF2014: fix ITRF2014:ITRF88,ITRF94 and ITRF96 definitions (#3159)
+
+ o createBoundCRSToWGS84IfPossible(): improve selection logic to generate +towgs84=
+   taking into account extent (#3160)
+
+ o createOperations(): fix some complex cases involving TOWGS84 and CompoundCRS (#3163)
+
+ o Fix cmake CURL dependency, update appveyor - vcpkg interaction (#3185)
+
+ o WKT import: deal with Projected CRS that is a mix of WKT1:GDAL / WKT1:ESRI (#3189)
+
+ o createOperations(): fix/improve result of 'BD72 + Ostend height ' to 'WGS84+EGM96 height' (#3199)
+
+ o Identifier::isEquivalentName(): fix when ending by ' + ' which could indirectly cause
+   an infinite stack call in master (#3202)
+
+ o WKT import: correctly deal with absence of Latitude_Of_Origin parameter in
+   WKT1 ESRI with Stereographic projection (#3212)
+
+ o PROJJSON parser: do not error out if a datum ensemble member is unknown in the database (#3223)
+
+
+9.0.0 Release Notes
+-------------------
+
+ Breaking Changes
+ ----------------
+
+ o Support for the autotools build system has been removed (#3027)
+   See RFC7 for details: https://proj.org/community/rfc/rfc-7.html
+
+ Updates
+ --------
+
+ o Database updates:
+
+  + ESRI projection engine db to version 12.9 (#2943)
+
+  + EPSG v10.054 (#3051)
+
+  + Vertical grid files for PL-geoid-2011, Polish geoid model (#2960)
+
+  + Belgian geoid model hBG18 to grid alternatives (#3044)
+
+ o Add new option to proj_create_crs_to_crs_from_pj method to force +over on
+   transformation operations (#2914)
+
+ o Specify CMAKE_INSTALL_RPATH for macOS; use -rpath LDFLAGS for tests (#3009)
+
+ o Implement Geographic3D to Depth/Geog2D+Depth as used by ETRS89 to CD Norway
+   depth (#3010)
+
+ o Allow PROJ_LIB paths wrapped with double quotes (#3031)
+
+ o Use external gtest by default when possible (#3035)
+
+ o CMake: make BUILD_SHARED_LIBS=ON the default even on Windows (#3042)
+
+ o proj.ini: add a 'ca_bundle_path' variable (#3049)
+
+
+ Bug fixes
+ ----------
+
+ o Fix extremely long parsing time on hostile PROJ strings (#2968)
+
+ o CMake: fix warning with external googletest (#2980)
+
+ o proj_get_crs_info_list_from_database(): report PJ_TYPE_GEODETIC_CRS for
+   IAU_2015 -ocentric geodetic CRS (#3013)
+
+ o peirce_q: rename +type parameter wrongly introduced in 8.2.1 to +shape (#3014)
+
+ o Set more precise error code for parsing errors in proj_create() (#3037)
+
+ o createOperations(): fix transformations from/to a BoundCRS of a
+   DerivedGeographicCRS coming from WKT (#3046)
+
+ o Better deal with importing strings like '+init=epsg:XXXX +over' (#3055)
+
+ o Fix importing CRS definition with +proj=peirce_q and +shape different from
+   square or diamond (#3057)
+
+
+8.2.1 Release Notes
+-------------------
+
+ Updates
+ -------
+
+ o Database updated with EPSG v. 10.041 (#2974)
+
+ Bug fixes
+ ---------
+
+ o BoundCRS WKT import: fix setting of name (#2917)
+
+ o PROJStringFormatter::toString(): avoid invalid iterator increment (#2932)
+
+ o Ensure CApi test are cross-platform (#2934)
+
+ o createOperations(): do not stop at the first operation in the PROJ namespace
+   for vertical transformations (#2937)
+
+ o createOperationsCompoundToCompound(): fix null pointer dereference when
+   connection to proj.db doesn't exist. (#2938)
+
+ o Fix windows.h conflict with Criterion::STRICT (#2950)
+
+ o Cache result of proj_get_type() to help for performance of
+   proj_factors() (#2967)
+
+ o createOperations(): improvement for "NAD83(CSRS) + CGVD28 height" to
+   "NAD83(CSRS) + CGVD2013(CGG2013) height" (#2977)
+
+ o WKT1 import: correctly deal with missing rectified_grid_angle
+   parameter (#2986)
+
+ o Fix and additional options for Peirce Quincuncial projections (#2978)
+
+ o Fix build with Intel C++ compiler (#2995)
+
+
+8.2.0 Release Notes
+-------------------
+
+ Announcements
+ -------------
+
+ From PROJ 9.0.0 and onwards CMake will be the only build system bundled
+ with the PROJ package. As a consequence support for Autotools builds will
+ stop when the 8.2 branch of PROJ reaches end of life. We encourage
+ everyone to adjust their build workflows as soon as possible and report
+ any discrepancies discovered between Autotools and CMake builds.
+
+ Details about the build system unification can be found in PROJ RFC 7.
+
+
+ Updates
+ -------
+
+ o Added the S2 projection (#2749)
+
+ o Added support for Degree Sign on input (#2791)
+
+ o ESRI WKT: add support for import/export of (non interrupted)
+   Goode Homolosine (#2827)
+
+ o Make filemanager aware of UWP Win32 API (#2831)
+
+ o Add proj_create_conversion_pole_rotation_netcdf_cf_convention() to
+   address netCDF datasets using a pole rotation method (#2835)
+
+ o Emit better debug message when a grid isn't found (#2838)
+
+ o Add support for GeodeticCRS using a Spherical planetocentric
+   coordinate system (#2847)
+
+ o PROJJSON: support additional properties allowed in id object (version,
+   authority_citation, uri) for parity with WKT2:2019 (#2850)
+
+ o Database layout modified to include "anchor" field to geodetic_datum and
+   vertical_datum tables, consequently database layout version is increased
+   to 1.2 (#2859)
+
+ o proj_factors(): accept P to be a projected CRS (#2868)
+
+ o Add IAU_2015 CRS definitions (#2876)
+
+ o CRS::extractGeodeticCRS(): implement for DerivedProjectedCRS (#2877)
+
+ o Added proj_trans_bounds() (#2882)
+
+ o CMake: add a BUILD_APPS to be able to disable build of all applications (#2895)
+
+ o CMake: generate invproj/invgeod binaries (symlinks on Unix, copy otherwise)
+   (#2897)
+
+ o CMake build: add generate_wkt1_parser and generate_wkt2_parser manual
+   target, and logic to detect when they must be run (#2900)
+
+ o Add fallback strategy for tinshift transform to use closest triangle for
+   points not in any (#2907)
+
+ o Database: update to EPSG v10.038 (#2910)
+
+ o CMake: revise handling of symbol export and static builds (#2912)
+
+ Bug fixes
+ ---------
+
+ o Fix O(n^2) performance patterns where n is the number of steps of
+   a pipeline (#2820)
+
+ o Detect ESRI WKT better in certain circumstances (#2823)
+
+ o Fix performance issue on pipeline instanciation of huge (broken)
+   pipelines (#2824)
+
+ o Make sure to re-order projection parameters according to their canonical
+   order if needed (#2842)
+
+ o Fix database access across fork() when SQLite3 doesn't use pread[64]() (#2845)
+
+ o Fix error in implementation of Inverse ellipsoidal orthographic projection
+   that cause convergence to sometimes fail (#2853)
+
+ o Fix handling of edge-case coordinates in invers ortho ellipsoidal
+   oblique (#2855)
+
+ o proj_normalize_for_visualization(): set input and output units when there
+   are several alternative transformations (#2867)
+
+ o CRS::identify(): fix ignoring CS order when identifying a geodetic CRS
+   by a PROJ string with just the ellipsoid (#2881)
+
+ o Fix CRS Equality with PROJ parameter order (#2887)
+
+ o WKT concatenated operation parsing: fix when a axis order reversal conversion
+   is the first or last operation (#2891)
+
+ o WKT1 parser: recognize Lambert_Conformal_Conic as projection name for
+   LCC 1SP or 2SP (#2893)
+
+ o CMake: Always build gie if testing is requested (#2899)
+
+ o Geographic 3D CRS: allow to export to WKT1:ESRI if only the GEOGCS is known
+   (and thus extrapolating a VERTCS) (#2902)
+
+ o lib_proj.cmake: add a PROJ::proj alias and add BUILD_INTERFACE include
+   directories, so that proj can be used as a subdirectory of a larger
+   project (#2913)
+
+
+ THANKS TO
+ ---------
+
+ Thomas Knudsen
+ Alan D. Snow
+ Johannes Schauer Marin Rodrigues
+ Howard Butler
+ Geoff Evans
+ Joris Van den Bossche
+ marcus-elia
+ Waheed Barghouthi
+ snowman2
+ Ben Boeckel
+ Mike Taves
+ Javier Jimenez Shaw
+ Brendan Jurd
+ Kristian Evers
+ Even Rouault
+
+
+8.1.1 Release Notes
+-------------------
+
+ Updates
+ -------
+
+ o EPSG Database updated to version 10.028 (#2773)
+
+ Bug Fixes
+ ---------
+
+ o Include algorithm header file to avoid build errors on Alpine Linux (#2769)
+
+ o CMake: fix installation of executables on iOS (#2766)
+
+ o Associate extents to transformations of CRS's that include GEOIDMODEL (#2769)
+
+ o Logging: avoid some overhead when logging is not enabled (#2775)
+
+ o ortho: remove useless and invalid log trace (#2777)
+
+ o CMake: remove external nlohmann_json from INTERFACE_LINK_LIBRARIES target (#2781)
+ o reateOperations(): fix SourceTargetCRSExtentUse::NONE mode (#2783)
+
+ o GeoTIFF grid reading: perf improvements (#2788)
+
+ o Conversion::createUTM(): avoid integer overflow (#2796)
+
+ o Inverse laea ellipsoidal: return PROJ_ERR_COORD_TRANSFM_OUTSIDE_PROJECTION_DOMAIN
+   when appropriates (#2801)
+
+ o Make sure that proj_crs_promote_to_3D returns a derived CRS (#2806)
+
+ o createOperations(): fix missing deg<-->rad conversion when transforming with a
+   CRS that has a fallback-to-PROJ4-string behaviour and is a BoundCRS of a
+   GeographicCRS (#2808)
+
+ o WKT2 import/export: preserve PROJ.4 CRS extension string in REMARKS[] (#2812)
+
+ o BoundCRS: accept importing/exporting in WKT2 and PROJJSON the
+   scope/area/extent/id attributes (#2815)
+
+ o ConcatenatedOperation::fixStepsDirection(): fix bad chaining of steps when
+   inverse map projection is involved in non-final step (#2819)
+
+
+ THANKS TO
+ ---------
+
+ Brendan Jurd
+ Kristian Evers
+ Even Rouault
+
+8.1.0 Release Notes
+-------------------
+
+ Updates
+ -------
+
+ + Database
+
+   o Update to EPSG v10.027 (#2751)
+
+   o Decrease DB size by using WITHOUT ROWID tables (#2730) (#2647)
+
+   o Add a ANALYZE step during proj.db creation allowing for
+     faster lookups (#2729)
+
+   o Added a PROJ.VERSION metadata entry (#2646)
+
+   o Added NGO48 (EPSG:4273) to ETRS89 (EPSG:4258) triangulation-based
+     transformation (#2554)
+
+   o Additions to the norwegian NKG2020 transformation (#2548)
+
+   o ESRI projection database updated to version 12.8 (#2717)
+
+ + API additions
+
+   o Added proj_get_geoid_models_from_database() function that returns a list of
+     geoid models available for a given CRS (#2681)
+
+   o Added proj_get_celestial_body_list_from_database that returns a list
+     of celestial bodies in the PROJ database (#2667)
+
+   o Added proj_get_celestial_body_name() (#2662)
+
+ + Various improvements
+
+   o proj_trans/cs2cs: If two operations have the same accuracy,
+     use the one that is contained within a larger one (#2750)
+
+   o Share SQLite database handle among all contexts (#2738)
+
+   o Add proj/internal/mutex.hpp as compat layer for mingw32 for std::mutex (#2736)
+
+   o projsync: make it filter out files not intended for the current version (#2725)
+
+   o Improvements related to DerivedVerticalCRS using Change Unit and
+     Height/Depth reversal methods (#2696)
+
+   o Update internal nlohmann/json to 3.9.1, and add a CMake option to
+     be able to use external nlohmann/json (#2686)
+
+   o createFromUserInput(): change name of CRS built from URN combined references to match the convention of EPSG projected CRS (#2677)
+
+   o Parse compound id with two authorities, like ESRI:103668+EPSG:5703 (#2669)
+
+   o Added projinfo option --list-crs (supports --area) (#2663)
+
+   o Added support for hyperbolic Cassini-Soldner (#2637)
+
+   o Added capability to get SQL statements to add custom CRS in the database (#2577)
+
+ Bug fixes
+ ---------
+
+ o Fix 'Please include winsock2.h before windows.h' warning with msys (#2692)
+
+ o Minor changes to address lint in geodesic.c (#2752)
+
+ o BoundCRS::identify(): avoid incompatible transformation for
+   WKT1 / TOWGS84 export (#2747)
+
+ o proj_create(): do not open proj.db if string is a PROJ string,
+   even if proj_context_set_autoclose_database() has been set (#2735)
+
+ o Fix export of transformation to PROJ string in a particular situation
+   where CompoundCRS are involved (#2721)
+
+ Thanks to
+ ---------
+
+ Howard Butler
+ Alan D. Snow
+ Roel van den Berg
+ Heidi Vanparys
+ Sveinung Himle
+ 積丹尼 Dan Jacobson
+ Nyall Dawson
+ Javier Jimenez Shaw
+ Charles Karney
+ Mike Taves
+ Kristian Evers
+ Even Rouault
+
+
+8.0.1 Release Notes
+-------------------
+
+ Updates
+ -------
+
+ o Database: update to EPSG v10.018 (#2636)
+
+ o Add transformations for CHGeo2004, Swiss geoid model (#2604)
+
+ o Additions to the norwegian NKG2020 transformation (#2600)
+
+ Bug fixes
+ ---------
+
+ o pj_vlog(): fix buffer overflow in case of super lengthy error message (#2693)
+
+ o Revert "proj_create_crs_to_crs_from_pj(): do not use PROJ_SPATIAL_CRITERION_PARTIAL_INTERSECTION if area is specified" (#2679)
+
+ o UTM: error out when value of +zone= is not an integer (#2672)
+
+ o getCRSInfoList(): make result order deterministic (by increasing auth_name,
+   code) (#2661)
+
+ o createOperation(): make sure no to discard deprecated operations if the
+   replacement uses an unknow grid (#2623)
+
+ o Fix build on Solaris 11.4 (#2621)
+
+ o Add mapping of ESRI Equal_Area projection method to EPSG (#2612)
+
+ o Fix incorrect EPGS extent code for EPSG:7789>EPSG:4976 NKG transformation (#2599)
+
+ o fix wrong capitalization of CHENyx06_ETRS.gsb (#2597)
+
+ o createOperations(): improve handling of vertical transforms when
+   when compound CRSs are used (#2592)
+
+ o CRS::promoteTo3D(): propagate the extent from the 2D CRS (#2589)
+
+ o createFromCRSCodesWithIntermediates(): improve performance when there is
+   no match (#2583)
+
+ o Fix proj_clone() to work on 'meta' coordinate operation PJ* objects that
+   can be returned by proj_create_crs_to_crs() (#2582)
+
+ o add PROJ_COMPUTE_VERSION, PROJ_VERSION_NUMBER,
+   PROJ_AT_LEAST_VERSION macros (#2581)
+
+ o Make proj_lp_dist() and proj_geod() work on a PJ* CRS object (#2570)
+
+ o Fix gcc 11 -Wnonnull compilation warnings (#2559)
+
+ o Fix use of uninitialized memory in gie tests (#2558)
+
+ o createOperations(): fix incorrect height transformation between 3D promoted RGF93 and CH1903+ (#2555)
+
+
+ THANKS TO
+ ---------
+
+ Dan Jacobson
+ Sveinung Himle
+ Mike Taves
+ Javier Jimenez Shaw
+ Kristian Evers
+ Even Rouault
+
+
+8.0.0 Release Notes
+-------------------
+
+With the release of PROJ 8 the proj_api.h API is finally removed. See
+https://proj.org/development/migration.html for more info on how to migrate
+from the old to the proj.h API.
+
+With the removal of proj_api.h it has been possible to simplify error codes
+and messages given by the software. The error codes are exposed in the API.
+
+Several improvements has been made to the command line utilities as well as
+tweaks in the underlying API.
+
+ Updates
+ -------
+
+ o Public header file proj_api.h removed (#837)
+
+ o Improved accuracy of the Mercator projection (#2397)
+
+ o Copyright statement wording updated (#2417)
+
+ o Allow cct to instantiate operations via object codes or names (#2419)
+
+ o Allow @filename syntax in cct (#2420)
+
+ o Added geocentric->topocentric conversion (+proj=topocentric) (#2444)
+
+ o Update GeographicLib to version 1.51 (#2445)
+
+ o Added option to allow export of Geographic/Projected 3D CRS
+   in WKT1_GDAL (#2450)
+
+ o Added --area and --bbox options in cs2cs to restrict candidate
+   coordinate operations (#2466)
+
+ o Added build time option to make PROJ_LIB env var tested last (#2476)
+
+ o Added --authority switch in cs2cs to control where coordinate operations
+   are looked for. C API function proj_create_crs_to_crs_from_pj() updated
+   accordingly (#2477)
+
+ o Error codes revised and exposed in the public API (#2487)
+
+ o Added --accuracy options to projinfo. C API function
+   proj_create_crs_to_crs_from_pj() updated accordingly (#2488)
+
+ o Added proj_crs_is_derived() function to C API (#2496)
+
+ o Enabled linking against static cURL on Windows (#2514)
+
+ o Updated ESRI CRS database to 12.7 (10.8.1/2.6) (#2519)
+
+ o Allow a WKT BoundCRS to use a PROJ string transformation (#2521)
+
+ o Update to EPSG v10.015 (#2539)
+
+ o Default log level set to PJ_LOG_ERROR (#2542)
+
+ o CMake installs a pkg-config file proj.pc, where supported (#2547)
+
+ Bug fixes
+ ---------
+
+ o Do not restrict longitude to [-90;90] range in spherical transverse Mercator
+   forward projection (#2471)
+
+ o createOperations(): fix Compound to Geog3D/Projected3D CRS with non-metre ellipsoidal height (#2500)
+
+ o Avoid error messages to be emitted log level is set to PJ_LOG_NONE (#2527)
+
+ o Close database connection when autoclose set to True (#2532)
+
+ THANKS TO
+ ---------
+
+
+ Zac Miller
+ Juan Hernando
+ Thomas Knudsen
+ Sveinung Himle
+ Olli Raisa
+ Nomit Rawat
+ Modern Slave
+ J.H. van de Water
+ Guillaume Lostis
+ Martin Steinisch
+ Javier Jimenez Shaw
+ Mateusz Łoskot
+ Martijn Visser
+ Alan D. Snow
+ Mike Taves
+ Nyall Dawson
+ Charles Karney
+ Kristian Evers
+ Even Rouault
+
+
 7.2.1 Release Notes
 -------------------
 
@@ -240,7 +1226,7 @@
     o Update to EPSG 9.8.12, ESRI 10.8.1 and import scope and remarks for
       conversion (#2238) (#2267)
 
-    o Map the Behrman projection to cae when converting ESRI CRSes (#1986)
+    o Map the Behrmann projection to cae when converting ESRI CRSes (#1986)
 
     o Support conversion of Flat_Polar_Quartic projection method (#1987)
 
@@ -1584,13 +2570,13 @@ o The PROJ.4 project also distributes the datum-grid package,
  o Return correct latitude when using negative northings in
    Transverse Mercator (tmerc). #138.
 
- o Return correct result at origin in inverse Mod. Stererographic
+ o Return correct result at origin in inverse Modified Stereographic
    of Alaska. #161.
 
- o Return correct result at origin in inverse Mod. Stererographic
+ o Return correct result at origin in inverse Modified Stereographic
    of 48 U.S. #162.
 
- o Return correct result at origin in inverse Mod. Stererographic
+ o Return correct result at origin in inverse Modified Stereographic
    of 50 U.S. #163.
 
  o Return correct result at origin in inverse Lee Oblated

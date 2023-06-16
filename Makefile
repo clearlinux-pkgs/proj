@@ -1,5 +1,5 @@
 PKG_NAME := proj
-URL = https://download.osgeo.org/proj/proj-7.2.1.tar.gz
+URL = https://github.com/OSGeo/PROJ/releases/download/9.2.1/proj-9.2.1.tar.gz
 ARCHIVES = 
 
 include ../common/Makefile.common
